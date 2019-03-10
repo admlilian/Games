@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Snake</title>
+</head>
+<body>
+
+   <canvas id="folha" width="600" height="600"></canvas>
+   <script type="text/javascript">
+
+      window.onload = function() {
+
+         var folhaDesenho = document.getElementById('folha');
+         var areaDesenho = folha.getContext("2d");
+         document.addEventListener("keydown", movimentacao);
+         setInterval(executar, 80);
+      
+         const velocidade = 1;
+
+         var velocidadeX = velocidadeY = 0;
+         var cabecaX = cabecaY = 10;
+         var larguraCampo = 600;
+         var alturaCampo = 600;
+         var frutaX = frutaY = 10;
+         var tamanhoPeca = 30;
+         var quantidadePeca = 20;
+
+         var rastro = [];
+         rabo = 5;
+
+      function executar() {
+            cabecaX += velocidadeX;
+            cabecaY += velocidadeY;
+            if (cabecaX <0) {
+                cabecaX = quantidadePeca -1;
+            }
+            if (cabecaX > quantidadePeca -1) {
+                cabecaX = 0;
+            }
+            if (cabecaY <0) {
+                cabecaY = quantidadePeca -1;
+            }
+            if (cabecaY >quantidadePeca -1) {
+                cabecaY = 0;
+            }
+
+            //desenho campo
+            areaDesenho.fillStyle = "#0a3d62"; //preto
+            areaDesenho.fillRect(0,0, larguraCampo, alturaCampo);
+
+            //desenho fruta
+            areaDesenho.fillStyle = "#EA2027"; // vermelho
+            areaDesenho.fillRect(frutaX*tamanhoPeca, frutaY*tamanhoPeca, tamanhoPeca, tamanhoPeca);
+
+            //desenho cobra
+            areaDesenho.fillStyle = "#c7ecee" //cinza
+            for (var i = 0; i < rastro.length; i++) {
+               areaDesenho.fillRect(rastro[i].x*tamanhoPeca, rastro[i].y*tamanhoPeca, tamanhoPeca-1,tamanhoPeca-1);
+               if(rastro[i].x == cabecaX && rastro[i].y == cabecaY) {
+                  velocidadeX = velocidadeY = 0;
+                  rabo = 5;
+               }
+
+            }
+
+            rastro.push({x:cabecaX, y:cabecaY}) //sempre que a cobra avança retira o ultimo ponto de rastro
+            while (rastro.length > rabo) {
+               rastro.shift();
+            }
+
+            if (frutaX == cabecaX && frutaY == cabecaY) { //se a cobra pegar a fruta, a fruta vai aparecer em outro ponto aleatório
+               rabo++;
+               frutaX = Math.floor(Math.random()*quantidadePeca);
+               frutaY = Math.floor(Math.random()*quantidadePeca);
+            }
+
+         }
+
+         function movimentacao(event) {
+
+            switch (event.keyCode) {
+               case 37: // left
+                  velocidadeX = -velocidade;
+                  velocidadeY = 0;
+                  break;
+               case 38: // up
+                  velocidadeX = 0;
+                  velocidadeY = -velocidade;
+                  break;
+               case 39: // right
+                  velocidadeX = velocidade;
+                  velocidadeY = 0;
+                  break;
+               case 40: // down
+                  velocidadeX = 0;
+                  velocidadeY = velocidade;
+                  break;
+               default:
+
+                  break;
+            }
+
+         }
+      
+      }      
+   
+   </script>
+</body>
+</html>
