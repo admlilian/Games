@@ -1,6 +1,6 @@
 # Games <img src="http://i.imgur.com/Cj4rMrS.gif" height="40" alt="Swimming Octocat" title="Games on GitHub">
 
-Games in HTML5 and JavaScript to learn and play.
+Games in HTML5 & JavaScript to learn and play.
 
 -------
 
